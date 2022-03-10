@@ -1,0 +1,51 @@
+
+service: serverless-restapi
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage}
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+
+# add 5 function for CURD operation
+functions: 
+  create:
+    handler: handler.create
+    events:
+      - http: 
+          path: notes
+          method: post
+          cors: true
+  getOne:
+    handler: handler.getOne
+    events:
+      - http: 
+          path: notes/{id}
+          method: get
+          cors: true
+  getAll:
+    handler: handler.getAll
+    events:
+      - http: 
+          path: notes
+          method: get
+          cors: true
+  update:
+    handler: handler.update
+    events:
+      - http: 
+          path: notes/{id}
+          method: put
+          cors: true
+  delete:
+    handler: handler.delete
+    events:
+      - http: 
+          path: notes/{id}
+          method: delete
+          cors: true
+plugins:
+- serverless-offline # adding the plugin to be able to run the offline emulation
